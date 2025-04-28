@@ -1,0 +1,20 @@
+{
+  "name": "mindmap-server",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js"
+  },
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "^11.4.2",
+    "execa": "^9.5.2",
+    "markmap-cli": "^0.18.11",
+    "openai": "^4.96.0"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.2",
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  }
+}
