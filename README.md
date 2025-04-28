@@ -1,4 +1,4 @@
-# Mindmap MCP Server
+# Mindmap MCP Server (mindmap-mcp-server)
 
 This is a Model Context Protocol (MCP) server designed to generate mind maps and relationship graphs using external CLI tools (`markmap-cli` and `@mermaid-js/mermaid-cli`) and AI analysis via OpenAI-compatible APIs.
 

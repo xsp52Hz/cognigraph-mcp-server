@@ -1,4 +1,4 @@
-# 思维导图 MCP 服务器
+# 思维导图 MCP 服务器 (mindmap-mcp-server)
 
 这是一个模型上下文协议 (MCP) 服务器，旨在使用外部命令行工具 (`markmap-cli` 和 `@mermaid-js/mermaid-cli`) 以及通过兼容 OpenAI 的 API 进行 AI 分析来生成思维导图和关系图谱。
 
