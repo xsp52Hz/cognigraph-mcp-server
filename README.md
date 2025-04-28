@@ -2,6 +2,8 @@
 
 This is a Model Context Protocol (MCP) server designed to generate mind maps, relationship graphs, and knowledge graphs using external CLI tools (`markmap-cli` and `@mermaid-js/mermaid-cli`) and AI analysis via OpenAI-compatible APIs.
 
+This server is designed to be compatible with various local MCP clients, including Claude Desktop, Cherry Studio, DeepChat, and HyperChat.
+
 ## Features
 
 Provides several tools accessible via the MCP `use_mcp_tool` command:
@@ -74,7 +76,8 @@ Example `mcp_settings.json` entry:
 
 1.  Clone this repository.
 2.  **(Manual Step)** Rename the cloned directory from `mindmap-server` to `cognigraph-mcp-server`.
-3.  Navigate into the `cognigraph-mcp-server` directory.
+3.  **(Manual Step)** Copy your desired image files (e.g., configuration screenshots) into the `images/` directory within the project.
+4.  Navigate into the `cognigraph-mcp-server` directory.
 4.  Install dependencies: `npm install`
 5.  Compile the TypeScript code: `npm run build`
 6.  Configure the server in your MCP client's settings file as shown above, ensuring the server name (`cognigraph-mcp-server`) and path in `args` are correct. Provide necessary environment variables.
@@ -83,3 +86,7 @@ Example `mcp_settings.json` entry:
 ## Usage
 
 Use the tools via your MCP client's `use_mcp_tool` functionality. Refer to the tool descriptions above for arguments.
+
+Here is an example configuration screenshot from Cherry Studio:
+
+![Cherry Studio Configuration Example](images/Snipaste_2025-04-29_01-34-31.png)

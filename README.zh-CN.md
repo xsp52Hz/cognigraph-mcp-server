@@ -2,6 +2,8 @@
 
 这是一个模型上下文协议 (MCP) 服务器，旨在使用外部命令行工具 (`markmap-cli` 和 `@mermaid-js/mermaid-cli`) 以及通过兼容 OpenAI 的 API 进行 AI 分析来生成思维导图、关系图谱和知识图谱。
 
+此服务器设计为与各种本地 MCP 客户端兼容，包括 Claude Desktop、Cherry Studio、DeepChat 和 HyperChat。
+
 ## 功能
 
 提供可通过 MCP `use_mcp_tool` 命令访问的多个工具：
@@ -74,7 +76,8 @@
 
 1.  克隆此仓库。
 2.  **(手动步骤)** 将克隆的目录从 `mindmap-server` 重命名为 `cognigraph-mcp-server`。
-3.  进入 `cognigraph-mcp-server` 目录。
+3.  **(手动步骤)** 将你想要的图片文件（例如配置截图）复制到项目内的 `images/` 目录中。
+4.  进入 `cognigraph-mcp-server` 目录。
 4.  安装依赖：`npm install`
 5.  编译 TypeScript 代码：`npm run build`
 6.  如上所示，在你的 MCP 客户端设置文件中配置服务器，确保服务器名称（`cognigraph-mcp-server`）和 `args` 中的路径正确。提供必要的环境变量。
@@ -83,3 +86,7 @@
 ## 使用方法
 
 通过你的 MCP 客户端的 `use_mcp_tool` 功能来使用这些工具。有关参数，请参阅上面的工具描述。
+
+以下是 Cherry Studio 的配置截图示例：
+
+![Cherry Studio 配置截图示例](images/Snipaste_2025-04-29_01-34-31.png)
