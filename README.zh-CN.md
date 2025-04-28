@@ -1,6 +1,6 @@
-# 思维导图 MCP 服务器 (mindmap-mcp-server)
+# CogniGraph MCP 服务器
 
-这是一个模型上下文协议 (MCP) 服务器，旨在使用外部命令行工具 (`markmap-cli` 和 `@mermaid-js/mermaid-cli`) 以及通过兼容 OpenAI 的 API 进行 AI 分析来生成思维导图和关系图谱。
+这是一个模型上下文协议 (MCP) 服务器，旨在使用外部命令行工具 (`markmap-cli` 和 `@mermaid-js/mermaid-cli`) 以及通过兼容 OpenAI 的 API 进行 AI 分析来生成思维导图、关系图谱和知识图谱。
 
 ## 功能
 
@@ -32,22 +32,29 @@
 
 ## 配置 (通过 MCP 设置 `env`)
 
-服务器可以通过 MCP 客户端的设置文件（例如 `mcp_settings.json`）中的环境变量进行配置：
+服务器依赖 MCP 客户端设置文件（例如 `mcp_settings.json`）中设置的环境变量来实现某些功能：
 
-*   `MINDMAP_DEFAULT_SAVE_DIR`: (可选) 设置保存文件的工具在未于工具参数中指定 `outputDir` 时的默认输出目录。如果未设置，则默认为用户的主目录。
-*   `OPENAI_API_KEY`: (运行 `generate_knowledge_graph` 时必需) 用于 OpenAI 或兼容服务的 API 密钥。可以在工具调用时通过 `apiKey` 参数覆盖。
-*   `OPENAI_BASE_URL`: (可选) 兼容 OpenAI 的 API 端点的基础 URL。如果未设置，则默认为 OpenAI 官方 API。可以在工具调用时通过 `baseURL` 参数覆盖。
-*   `OPENAI_DEFAULT_MODEL`: (可选) 如果未在工具参数中指定，则为 `generate_knowledge_graph` 使用的默认 AI 模型名称。默认为 `gpt-3.5-turbo`。
+*   **`MINDMAP_DEFAULT_SAVE_DIR`**: (可选) 为保存文件的工具（`generate_and_save_mindmap`, `generate_relationship_graph`, `generate_knowledge_graph`）设置默认输出目录（如果参数中未提供 `outputDir`）。
+    *   **如果未设置此变量：** 这些工具将默认保存文件到用户的主目录。`generate_mindmap` 工具（直接返回内容）不受影响。
+*   **`OPENAI_API_KEY`**: (运行 `generate_knowledge_graph` 时必需) 用于 OpenAI 或兼容服务的 API 密钥。
+    *   **如果未设置此变量（且未通过 `apiKey` 参数提供）：** `generate_knowledge_graph` 工具将失败。其他工具不受影响。
+*   **`OPENAI_BASE_URL`**: (可选) 兼容 OpenAI 的 API 端点的基础 URL。如果未设置，则默认为 OpenAI 官方 API。仅与 `generate_knowledge_graph` 相关。
+*   **`OPENAI_DEFAULT_MODEL`**: (可选) `generate_knowledge_graph` 使用的默认 AI 模型名称。如果未设置，则默认为 `gpt-3.5-turbo`。仅与 `generate_knowledge_graph` 相关。
+
+**重要配置说明：**
+*   `generate_mindmap` 工具（工具 1）不依赖任何这些环境变量。
+*   工具 2 和 3（`generate_and_save_mindmap`, `generate_relationship_graph`）仅依赖 `MINDMAP_DEFAULT_SAVE_DIR` 来确定*默认*保存位置。如果未设置，它们仍可工作（保存到主目录）。
+*   工具 4（`generate_knowledge_graph`）**必需** `OPENAI_API_KEY`（通过环境变量或参数）才能运行。它也会使用其他的 `OPENAI_*` 变量和 `MINDMAP_DEFAULT_SAVE_DIR`。
 
 `mcp_settings.json` 配置示例：
 
 ```json
 {
   "mcpServers": {
-    "mindmap-server": {
+    "cognigraph-mcp-server": { // 确保服务器名称匹配
       "command": "node",
       "args": [
-        "/path/to/mindmap-server/build/index.js" // 根据实际情况调整路径
+        "/path/to/cognigraph-mcp-server/build/index.js" // 根据实际情况调整路径
       ],
       "env": {
         "MINDMAP_DEFAULT_SAVE_DIR": "C:\\Users\\YourUser\\Desktop",
@@ -65,12 +72,13 @@
 
 ## 安装设置
 
-1.  克隆此仓库（或确保你拥有项目文件）。
-2.  进入 `mindmap-server` 目录。
-3.  安装依赖：`npm install`
-4.  编译 TypeScript 代码：`npm run build`
-5.  如上所示，在你的 MCP 客户端设置文件中配置服务器，确保设置正确的 `build/index.js` 路径并提供必要的环境变量（特别是如果使用知识图谱工具，需要 `OPENAI_API_KEY`）。
-6.  重启你的 MCP 客户端以加载服务器。
+1.  克隆此仓库。
+2.  **(手动步骤)** 将克隆的目录从 `mindmap-server` 重命名为 `cognigraph-mcp-server`。
+3.  进入 `cognigraph-mcp-server` 目录。
+4.  安装依赖：`npm install`
+5.  编译 TypeScript 代码：`npm run build`
+6.  如上所示，在你的 MCP 客户端设置文件中配置服务器，确保服务器名称（`cognigraph-mcp-server`）和 `args` 中的路径正确。提供必要的环境变量。
+7.  重启你的 MCP 客户端以加载服务器。
 
 ## 使用方法
 

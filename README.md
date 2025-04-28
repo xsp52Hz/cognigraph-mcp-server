@@ -1,6 +1,6 @@
-# Mindmap MCP Server (mindmap-mcp-server)
+# CogniGraph MCP Server
 
-This is a Model Context Protocol (MCP) server designed to generate mind maps and relationship graphs using external CLI tools (`markmap-cli` and `@mermaid-js/mermaid-cli`) and AI analysis via OpenAI-compatible APIs.
+This is a Model Context Protocol (MCP) server designed to generate mind maps, relationship graphs, and knowledge graphs using external CLI tools (`markmap-cli` and `@mermaid-js/mermaid-cli`) and AI analysis via OpenAI-compatible APIs.
 
 ## Features
 
@@ -32,22 +32,29 @@ Provides several tools accessible via the MCP `use_mcp_tool` command:
 
 ## Configuration (via MCP Settings `env`)
 
-The server can be configured using environment variables within the MCP client's settings file (e.g., `mcp_settings.json`):
+The server relies on environment variables set within the MCP client's settings file (e.g., `mcp_settings.json`) for certain functionalities:
 
-*   `MINDMAP_DEFAULT_SAVE_DIR`: (Optional) Sets the default directory where tools saving files will place their output if `outputDir` is not specified in the tool arguments. Defaults to the user's home directory if not set.
-*   `OPENAI_API_KEY`: (Required for `generate_knowledge_graph`) Your API key for the OpenAI or compatible service. Can be overridden by the `apiKey` argument in the tool call.
-*   `OPENAI_BASE_URL`: (Optional) The base URL for the OpenAI-compatible API endpoint. Defaults to the official OpenAI API if not set. Can be overridden by the `baseURL` argument in the tool call.
-*   `OPENAI_DEFAULT_MODEL`: (Optional) The default AI model name to use for `generate_knowledge_graph` if not specified in the tool arguments. Defaults to `gpt-3.5-turbo`.
+*   **`MINDMAP_DEFAULT_SAVE_DIR`**: (Optional) Sets the default directory for tools that save files (`generate_and_save_mindmap`, `generate_relationship_graph`, `generate_knowledge_graph`) if `outputDir` is not provided in the arguments.
+    *   **If this variable is NOT set:** These tools will default to saving files in the user's home directory. The `generate_mindmap` tool (which returns content directly) remains unaffected.
+*   **`OPENAI_API_KEY`**: (Required for `generate_knowledge_graph`) Your API key for the OpenAI or compatible service.
+    *   **If this variable is NOT set (and not provided via `apiKey` argument):** The `generate_knowledge_graph` tool will fail. Other tools are unaffected.
+*   **`OPENAI_BASE_URL`**: (Optional) The base URL for the OpenAI-compatible API endpoint. Defaults to the official OpenAI API if not set. Only relevant for `generate_knowledge_graph`.
+*   **`OPENAI_DEFAULT_MODEL`**: (Optional) The default AI model name for `generate_knowledge_graph`. Defaults to `gpt-3.5-turbo` if not set. Only relevant for `generate_knowledge_graph`.
+
+**Important Notes on Configuration:**
+*   The `generate_mindmap` tool (Tool 1) does not depend on any of these environment variables.
+*   Tools 2 and 3 (`generate_and_save_mindmap`, `generate_relationship_graph`) depend only on `MINDMAP_DEFAULT_SAVE_DIR` for their *default* save location. They still function (saving to the home directory) if it's not set.
+*   Tool 4 (`generate_knowledge_graph`) **requires** `OPENAI_API_KEY` (either via env var or argument) to function at all. It also uses the other `OPENAI_*` variables and `MINDMAP_DEFAULT_SAVE_DIR`.
 
 Example `mcp_settings.json` entry:
 
 ```json
 {
   "mcpServers": {
-    "mindmap-server": {
+    "cognigraph-mcp-server": { // Ensure server name matches
       "command": "node",
       "args": [
-        "/path/to/mindmap-server/build/index.js" // Adjust path accordingly
+        "/path/to/cognigraph-mcp-server/build/index.js" // Adjust path accordingly
       ],
       "env": {
         "MINDMAP_DEFAULT_SAVE_DIR": "C:\\Users\\YourUser\\Desktop",
@@ -65,12 +72,13 @@ Example `mcp_settings.json` entry:
 
 ## Setup
 
-1.  Clone this repository (or ensure you have the project files).
-2.  Navigate to the `mindmap-server` directory.
-3.  Install dependencies: `npm install`
-4.  Compile the TypeScript code: `npm run build`
-5.  Configure the server in your MCP client's settings file as shown above, making sure to set the correct path to `build/index.js` and provide necessary environment variables (especially `OPENAI_API_KEY` if using the knowledge graph tool).
-6.  Restart your MCP client to load the server.
+1.  Clone this repository.
+2.  **(Manual Step)** Rename the cloned directory from `mindmap-server` to `cognigraph-mcp-server`.
+3.  Navigate into the `cognigraph-mcp-server` directory.
+4.  Install dependencies: `npm install`
+5.  Compile the TypeScript code: `npm run build`
+6.  Configure the server in your MCP client's settings file as shown above, ensuring the server name (`cognigraph-mcp-server`) and path in `args` are correct. Provide necessary environment variables.
+7.  Restart your MCP client to load the server.
 
 ## Usage
 
