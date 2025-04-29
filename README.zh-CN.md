@@ -90,3 +90,38 @@
 以下是 Cherry Studio 的配置截图示例：
 
 ![Cherry Studio 配置截图示例](images/Snipaste_2025-04-29_01-34-31.png)
+## 通过 npx 使用
+
+现在，你可以使用 `npx` 命令快速启动此 MCP 服务器，无需手动克隆和构建。
+
+1.  **确保 Node.js 和 npm 已安装。**
+2.  **更新你的 MCP 客户端设置文件 (`mcp_settings.json` 或类似文件):**
+
+    将服务器配置中的 `command` 设置为 `npx`，并将 `args` 设置为 `["cognigraph-mcp-server"]`。移除之前指向本地 `build/index.js` 的路径。
+
+    **新的配置示例:**
+
+    ```json
+    {
+      "mcpServers": {
+        "cognigraph-mcp-server": { // 服务器名称保持不变
+          "command": "npx", // 使用 npx
+          "args": [
+            "cognigraph-mcp-server" // 包名
+          ],
+          "env": { // 环境变量保持不变
+            "MINDMAP_DEFAULT_SAVE_DIR": "C:\\Users\\YourUser\\Desktop",
+            "OPENAI_API_KEY": "sk-...",
+            "OPENAI_BASE_URL": "http://localhost:11434/v1",
+            "OPENAI_DEFAULT_MODEL": "llama3"
+          },
+          "disabled": false,
+          "alwaysAllow": []
+        }
+        // ... 其他服务器
+      }
+    }
+    ```
+3.  **重启你的 MCP 客户端。** 客户端现在将使用 npx 来下载（如果需要）并运行最新发布的 `cognigraph-mcp-server`。
+
+**注意:** 使用 npx 时，服务器的环境变量（如 `OPENAI_API_KEY`）仍然需要通过 MCP 客户端的 `env` 设置来传递。

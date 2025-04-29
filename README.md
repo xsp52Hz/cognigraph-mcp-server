@@ -90,3 +90,38 @@ Use the tools via your MCP client's `use_mcp_tool` functionality. Refer to the t
 Here is an example configuration screenshot from Cherry Studio:
 
 ![Cherry Studio Configuration Example](images/Snipaste_2025-04-29_01-34-31.png)
+## Usage via npx
+
+You can now quickly start this MCP server using the `npx` command, without needing to manually clone and build the repository.
+
+1.  **Ensure Node.js and npm are installed.**
+2.  **Update your MCP client's settings file (`mcp_settings.json` or similar):**
+
+    Change the `command` in the server configuration to `npx` and set `args` to `["cognigraph-mcp-server"]`. Remove the previous path pointing to the local `build/index.js`.
+
+    **New Configuration Example:**
+
+    ```json
+    {
+      "mcpServers": {
+        "cognigraph-mcp-server": { // Server name remains the same
+          "command": "npx", // Use npx
+          "args": [
+            "cognigraph-mcp-server" // Package name
+          ],
+          "env": { // Environment variables remain the same
+            "MINDMAP_DEFAULT_SAVE_DIR": "C:\\Users\\YourUser\\Desktop",
+            "OPENAI_API_KEY": "sk-...",
+            "OPENAI_BASE_URL": "http://localhost:11434/v1",
+            "OPENAI_DEFAULT_MODEL": "llama3"
+          },
+          "disabled": false,
+          "alwaysAllow": []
+        }
+        // ... other servers
+      }
+    }
+    ```
+3.  **Restart your MCP client.** The client will now use npx to download (if necessary) and run the latest published version of `cognigraph-mcp-server`.
+
+**Note:** When using npx, environment variables for the server (like `OPENAI_API_KEY`) still need to be passed through the MCP client's `env` settings.
