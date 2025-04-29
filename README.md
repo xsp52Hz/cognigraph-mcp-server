@@ -75,13 +75,9 @@ Example `mcp_settings.json` entry:
 ## Setup
 
 1.  Clone this repository.
-2.  **(Manual Step)** Rename the cloned directory from `mindmap-server` to `cognigraph-mcp-server`.
-3.  **(Manual Step)** Copy your desired image files (e.g., configuration screenshots) into the `images/` directory within the project.
-4.  Navigate into the `cognigraph-mcp-server` directory.
-4.  Install dependencies: `npm install`
-5.  Compile the TypeScript code: `npm run build`
-6.  Configure the server in your MCP client's settings file as shown above, ensuring the server name (`cognigraph-mcp-server`) and path in `args` are correct. Provide necessary environment variables.
-7.  Restart your MCP client to load the server.
+2.  Navigate into the `cognigraph-mcp-server` directory.
+3.  Configure the server in your MCP client's settings file as shown above, ensuring the server name (`cognigraph-mcp-server`) and path in `args` are correct. Provide necessary environment variables.
+4.  Restart your MCP client to load the server.
 
 ## Usage
 

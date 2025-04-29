@@ -75,13 +75,9 @@
 ## 安装设置
 
 1.  克隆此仓库。
-2.  **(手动步骤)** 将克隆的目录从 `mindmap-server` 重命名为 `cognigraph-mcp-server`。
-3.  **(手动步骤)** 将你想要的图片文件（例如配置截图）复制到项目内的 `images/` 目录中。
-4.  进入 `cognigraph-mcp-server` 目录。
-4.  安装依赖：`npm install`
-5.  编译 TypeScript 代码：`npm run build`
-6.  如上所示，在你的 MCP 客户端设置文件中配置服务器，确保服务器名称（`cognigraph-mcp-server`）和 `args` 中的路径正确。提供必要的环境变量。
-7.  重启你的 MCP 客户端以加载服务器。
+2.  进入 `cognigraph-mcp-server` 目录。
+3.  如上所示，在你的 MCP 客户端设置文件中配置服务器，确保服务器名称（`cognigraph-mcp-server`）和 `args` 中的路径正确。提供必要的环境变量。
+4.  重启你的 MCP 客户端以加载服务器。
 
 ## 使用方法
 
