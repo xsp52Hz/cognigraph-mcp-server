@@ -1,6 +1,6 @@
 {
   "name": "cognigraph-mcp-server",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "An MCP server for generating mind maps and relationship graphs.",
   "main": "build/index.js",
   "type": "module",
