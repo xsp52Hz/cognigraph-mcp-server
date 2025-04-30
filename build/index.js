@@ -60,8 +60,6 @@ class MindmapServer {
             // --- Resolve common paths ---
             const __filename = fileURLToPath(import.meta.url);
             const __dirname = path.dirname(__filename);
-            const markmapCliPath = path.resolve(__dirname, '..', 'node_modules', '.bin', 'markmap');
-            const mmdcPath = path.resolve(__dirname, '..', 'node_modules', '.bin', 'mmdc');
             // --- Helper function to determine save path ---
             const determineSavePath = (dirArg, defaultFilenamePrefix, format, filenameArg) => {
                 let targetDir;
@@ -88,7 +86,7 @@ class MindmapServer {
                 const tempOutputFile = path.join(tempDir, `markmap-${uniqueId}.${outputFormat}`);
                 try {
                     await writeFile(tempMdFile, markdown, 'utf8');
-                    await execa(markmapCliPath, [tempMdFile, `--output`, tempOutputFile]);
+                    await execa('markmap', [tempMdFile, `--output`, tempOutputFile], { preferLocal: true });
                     const outputContent = await readFile(tempOutputFile, 'utf8');
                     return { content: [{ type: 'text', text: outputContent }] };
                 }
@@ -121,7 +119,7 @@ class MindmapServer {
                 try {
                     await mkdir(path.dirname(finalOutputPath), { recursive: true });
                     await writeFile(tempMdFile, markdown, 'utf8');
-                    await execa(markmapCliPath, [tempMdFile, `--output`, finalOutputPath]);
+                    await execa('markmap', [tempMdFile, `--output`, finalOutputPath], { preferLocal: true });
                     return { content: [{ type: 'text', text: `Mind map successfully saved to: ${finalOutputPath}` }] };
                 }
                 catch (error) {
@@ -149,14 +147,14 @@ class MindmapServer {
                 try {
                     await mkdir(path.dirname(finalOutputPath), { recursive: true });
                     await writeFile(tempMmdFile, mermaid_text, 'utf8');
-                    await execa(mmdcPath, ['-i', tempMmdFile, '-o', finalOutputPath]);
+                    await execa('mmdc', ['-i', tempMmdFile, '-o', finalOutputPath], { preferLocal: true });
                     return { content: [{ type: 'text', text: `Relationship graph successfully saved to: ${finalOutputPath}` }] };
                 }
                 catch (error) {
-                    let msg = `Error saving relationship graph to ${finalOutputPath}`;
-                    error.stderr && (msg += `: ${error.stderr}`);
-                    error.message && (msg += `: ${error.message}`);
-                    console.error(msg, error);
+                    // 改进错误处理
+                    let detailedError = error instanceof Error ? error.stack : JSON.stringify(error); // 获取更详细的错误信息
+                    let msg = `Error saving relationship graph to ${finalOutputPath}. Details: ${detailedError}`;
+                    console.error(msg, error); // 仍然在控制台打印原始错误
                     return { content: [{ type: 'text', text: msg }], isError: true };
                 }
                 finally {
@@ -214,7 +212,7 @@ Key requirements for the Mermaid code:
                     try {
                         await mkdir(path.dirname(finalOutputPath), { recursive: true });
                         await writeFile(tempMmdFile, mermaidText, 'utf8');
-                        await execa(mmdcPath, ['-i', tempMmdFile, '-o', finalOutputPath]);
+                        await execa('mmdc', ['-i', tempMmdFile, '-o', finalOutputPath], { preferLocal: true });
                         return { content: [{ type: 'text', text: `Knowledge graph successfully generated and saved to: ${finalOutputPath}` }] };
                     }
                     catch (renderError) {

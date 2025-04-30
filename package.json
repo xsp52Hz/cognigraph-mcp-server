@@ -1,6 +1,6 @@
 {
   "name": "cognigraph-mcp-server",
-  "version": "0.1.1",
+  "version": "0.1.6",
   "description": "An MCP server for generating mind maps and relationship graphs.",
   "main": "build/index.js",
   "type": "module",
@@ -15,7 +15,8 @@
     "@mermaid-js/mermaid-cli": "^11.4.2",
     "execa": "^9.5.2",
     "markmap-cli": "^0.18.11",
-    "openai": "^4.96.0"
+    "openai": "^4.96.0",
+    "@modelcontextprotocol/sdk": "^1.10.2"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,6 @@
   },
   "homepage": "https://github.com/your-username/cognigraph-mcp-server#readme",
   "devDependencies": {
-    "@modelcontextprotocol/sdk": "^1.10.2",
     "@types/node": "^22.15.3",
     "typescript": "^5.8.3"
   }
